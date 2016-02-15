@@ -1,4 +1,4 @@
-package monkey.codes.prometheus
+package codes.monkey.prometheus
 
 import io.prometheus.client.CollectorRegistry
 import org.springframework.boot.actuate.autoconfigure.ExportMetricWriter

@@ -1,2 +1,2 @@
 org.springframework.boot.actuate.autoconfigure.ManagementContextConfiguration=\
-monkey.codes.prometheus.PrometheusEndpointContextConfiguration
+codes.monkey.prometheus.PrometheusEndpointContextConfiguration

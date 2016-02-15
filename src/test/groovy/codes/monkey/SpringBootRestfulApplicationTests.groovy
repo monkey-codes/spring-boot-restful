@@ -1,4 +1,4 @@
-package monkey.codes
+package codes.monkey
 
 import org.junit.Test
 import org.junit.runner.RunWith

@@ -1,4 +1,4 @@
-package monkey.codes.people
+package codes.monkey.people
 
 import org.springframework.data.annotation.Id
 
