@@ -1,11 +1,9 @@
 package monkey.codes
 
-import io.prometheus.client.CollectorRegistry
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 
-import io.prometheus.client.exporter.common.TextFormat
 import javax.servlet.http.HttpServletResponse
 
 /**
@@ -14,20 +12,14 @@ import javax.servlet.http.HttpServletResponse
 @Controller
 class TestController {
 
-    CollectorRegistry registry
-
-    @Autowired
-    public TestController(CollectorRegistry registry){
-        this.registry = registry
-    }
-
-    @RequestMapping("/prometheus")
-    public void test(HttpServletResponse resp){
+    @RequestMapping("/hello")
+    public void test(@RequestParam('name') String name,  HttpServletResponse resp){
         resp.setStatus(HttpServletResponse.SC_OK);
-        resp.setContentType(TextFormat.CONTENT_TYPE_004);
+//        resp.setContentType(TextFormat.CONTENT_TYPE_004);
 
         Writer writer = resp.getWriter();
-        TextFormat.write004(writer, registry.metricFamilySamples());
+        writer.write("this is something else $name")
+//        TextFormat.write004(writer, registry.metricFamilySamples());
         writer.flush();
         writer.close();
     }

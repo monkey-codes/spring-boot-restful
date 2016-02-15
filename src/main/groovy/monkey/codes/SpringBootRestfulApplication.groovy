@@ -11,16 +11,16 @@ import org.springframework.context.annotation.Bean
 @SpringBootApplication
 class SpringBootRestfulApplication {
 
-	@Bean
-	CollectorRegistry collectorRegistry(){
-		return new CollectorRegistry()
-	}
-
-	@Bean
-	@ExportMetricWriter
-	MetricWriter prometheusMetricWriter(CollectorRegistry registry){
-		new PrometheusMetricWriter(registry)
-	}
+//	@Bean
+//	CollectorRegistry collectorRegistry(){
+//		return new CollectorRegistry()
+//	}
+//
+//	@Bean
+//	@ExportMetricWriter
+//	MetricWriter prometheusMetricWriter(CollectorRegistry registry){
+//		new PrometheusMetricWriter(registry)
+//	}
 
 	static void main(String[] args) {
 		SpringApplication.run SpringBootRestfulApplication, args
