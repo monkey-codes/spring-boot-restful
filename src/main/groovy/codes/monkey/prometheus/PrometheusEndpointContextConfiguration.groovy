@@ -15,27 +15,25 @@ import org.springframework.context.annotation.Bean
 class PrometheusEndpointContextConfiguration {
 
     @Bean
-    PrometheusEndpoint prometheusEndpoint(CollectorRegistry registry){
+    PrometheusEndpoint prometheusEndpoint(CollectorRegistry registry) {
         new PrometheusEndpoint(registry)
     }
 
     @Bean
     @ConditionalOnBean(PrometheusEndpoint.class)
     @ConditionalOnEnabledEndpoint("prometheus")
-    PrometheusMvcEndpoint prometheusMvcEndpoint(PrometheusEndpoint prometheusEndpoint){
+    PrometheusMvcEndpoint prometheusMvcEndpoint(PrometheusEndpoint prometheusEndpoint) {
         new PrometheusMvcEndpoint(prometheusEndpoint)
     }
 
     @Bean
-    CollectorRegistry collectorRegistry(){
+    CollectorRegistry collectorRegistry() {
         new CollectorRegistry()
     }
 
-
-
     @Bean
     @ExportMetricWriter
-    MetricWriter prometheusMetricWriter(CollectorRegistry registry){
+    MetricWriter prometheusMetricWriter(CollectorRegistry registry) {
         new PrometheusMetricWriter(registry)
     }
 
