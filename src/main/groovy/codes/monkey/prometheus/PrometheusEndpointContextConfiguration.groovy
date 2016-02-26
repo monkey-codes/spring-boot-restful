@@ -28,7 +28,7 @@ class PrometheusEndpointContextConfiguration {
 
     @Bean
     CollectorRegistry collectorRegistry() {
-        new CollectorRegistry()
+        CollectorRegistry.defaultRegistry
     }
 
     @Bean
