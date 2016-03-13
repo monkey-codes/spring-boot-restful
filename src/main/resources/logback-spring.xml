@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE logback>
+<configuration>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+
+        <encoder>
+            <pattern>%-5level %logger{35} - %msg %n</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="FLUENT"
+              class="ch.qos.logback.more.appenders.DataFluentAppender">
+        <tag>spring-boot-restful</tag>
+        <label>normal</label>
+        <remoteHost>fluentd</remoteHost>
+        <port>24224</port>
+        <maxQueueSize>20</maxQueueSize>
+    </appender>
+
+    <root>
+        <level value="info"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FLUENT"/>
+    </root>
+
+</configuration>

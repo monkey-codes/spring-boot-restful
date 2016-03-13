@@ -8,13 +8,16 @@ buildscript {
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath 'org.springframework:springloaded:1.2.5.RELEASE'
+		classpath('se.transmode.gradle:gradle-docker:1.2')
+
 	}
 }
 
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'spring-boot' 
+apply plugin: 'spring-boot'
+
 
 jar {
 	baseName = 'spring-boot-restful'
@@ -25,6 +28,7 @@ targetCompatibility = 1.8
 
 repositories {
 	mavenCentral()
+	maven { url "http://sndyuk.github.com/maven" }
 }
 
 
@@ -35,7 +39,9 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-rest')
     compile("org.springframework.boot:spring-boot-starter-actuator")
 	compile('org.codehaus.groovy:groovy')
-	testCompile('org.springframework.boot:spring-boot-starter-test') 
+	compile('org.fluentd:fluent-logger:0.3.2')
+	compile('com.sndyuk:logback-more-appenders:1.1.0')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 
@@ -56,4 +62,35 @@ idea {
 
 task wrapper(type: Wrapper) {
 	gradleVersion = '2.10'
+}
+
+apply plugin: 'docker'
+
+
+task buildDocker(type: Docker, dependsOn: build) {
+	push = false
+	applicationName = "monkey-codes/${jar.baseName}"
+	dockerfile = file('src/main/docker/Dockerfile')
+	doFirst {
+		copy {
+			from jar
+			into stageDir
+		}
+	}
+}
+
+import groovy.json.JsonSlurper
+task generateData
+
+(0..99).each { id ->
+	task "generateUser$id" << {
+		def slurper = new JsonSlurper()
+		def randomUser = slurper.parseText(new URL('https://randomuser.me/api/?nat=au').text).results[0].user
+		exec {
+			executable "curl"
+			args "-s", '-X','POST','-H','Content-Type:application/json','-d',"{\"firstName\": \"$randomUser.name.first\", \"lastName\": \"$randomUser.name.last\"}", 'http://192.168.99.100/people'
+		}
+	}
+	generateData.dependsOn "generateUser$id"
+
 }

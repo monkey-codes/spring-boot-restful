@@ -1,0 +1,83 @@
+version: '2'
+volumes:
+  data-mongo:
+    external:
+      name: spring-boot-restful-data-mongo
+  data-prometheus:
+    external:
+      name: spring-boot-restful-data-prometheus
+  data-grafana:
+    external:
+      name: spring-boot-restful-data-grafana
+  data-grafana:
+      external:
+        name: spring-boot-restful-data-grafana
+  data-logging:
+    external:
+      name: spring-boot-restful-data-logs
+  data-elasticsearch:
+      external:
+        name: spring-boot-restful-data-elasticsearch
+services:
+
+  web:
+    image: monkey-codes/spring-boot-restful
+    container_name: web
+    ports:
+     - "80:8080"
+    links:
+     - db
+     - fluentd
+
+  db:
+    image: mongo
+    container_name: db
+    volumes:
+      - data-mongo:/data/db
+
+  prometheus:
+    build: ./prometheus
+    image: prometheus
+    container_name: prometheus
+    volumes:
+      - data-prometheus:/prometheus
+    ports:
+     - "9090:9090"
+    links:
+     - web
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    volumes:
+     - data-grafana:/var/lib/grafana
+    ports:
+     - "3000:3000"
+    links:
+     - prometheus
+
+  fluentd:
+      build: ./fluentd
+      container_name: fluentd
+      volumes:
+       - data-logging:/fluentd/log
+      ports:
+       - "24224:24224"
+      links:
+       - elasticsearch
+
+  elasticsearch:
+    image: elasticsearch
+    container_name: elasticsearch
+    volumes:
+      - data-elasticsearch:/usr/share/elasticsearch/data
+
+  kibana:
+    image: kibana
+    container_name: kibana
+    ports:
+     - "5601:5601"
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    links:
+     - elasticsearch

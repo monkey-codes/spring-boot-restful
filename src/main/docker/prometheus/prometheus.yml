@@ -1,0 +1,15 @@
+# my global config
+global:
+  scrape_interval:     15s
+  evaluation_interval: 30s
+
+scrape_configs:
+
+  - job_name: 'spring-boot-restful'
+
+    scrape_interval: 5s
+    scrape_timeout: 10s
+    metrics_path: '/prometheus'
+
+    target_groups:
+     - targets: ['web:8080']
