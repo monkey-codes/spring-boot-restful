@@ -85,10 +85,10 @@ task generateData
 (0..99).each { id ->
 	task "generateUser$id" << {
 		def slurper = new JsonSlurper()
-		def randomUser = slurper.parseText(new URL('https://randomuser.me/api/?nat=au').text).results[0].user
+		def randomUser = slurper.parseText(new URL('https://randomuser.me/api/?nat=au').text).results[0]
 		exec {
 			executable "curl"
-			args "-s", '-X','POST','-H','Content-Type:application/json','-d',"{\"firstName\": \"$randomUser.name.first\", \"lastName\": \"$randomUser.name.last\"}", 'http://192.168.99.100/people'
+			args "-s", '-X','POST','-H','Content-Type:application/json','-d',"{\"firstName\": \"$randomUser.name.first\", \"lastName\": \"$randomUser.name.last\"}", 'http://localhost/people'
 		}
 	}
 	generateData.dependsOn "generateUser$id"

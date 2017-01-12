@@ -12,3 +12,4 @@ gradle-app.setting
 .gradletasknamecache
 
 spring-boot-restful.*
+.DS_Store
