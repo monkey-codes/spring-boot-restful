@@ -1,6 +1,6 @@
 # spring-boot-restful
 
-The sample code that accompanies the [Boot Your RESTful API Using Spring](http://blog.monkey.codes/boot-your-restful-api-using-spring/) and [Actuator and Prometheus](http://blog.monkey.codes/actuator-and-prometheus/) blog post.
+The sample code that accompanies the [Boot Your RESTful API Using Spring](https://johanzietsman.com/boot-your-restful-api-using-spring/) and [Actuator and Prometheus](https://johanzietsman.com/actuator-and-prometheus/) blog post.
 
 
 # Running the sample code
